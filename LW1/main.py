@@ -101,11 +101,13 @@ news_count_by_weekdays = {
 
 # Визначення дня, в який була опублікована найбільша кількість статей
 day_with_the_most_news_count = max(news_count_by_weekdays, key=news_count_by_weekdays.get)
-print(f"День, в який було опубліковано найбільше статей: {day_with_the_most_news_count}")
+max_news_count = news_count_by_weekdays[day_with_the_most_news_count]
+print(f"День, в який було опубліковано найбільше статей: {day_with_the_most_news_count} ({max_news_count})")
 
 # Визначення дня, в який була опублікована найменша кількість статей
 day_with_the_least_news_count = min(news_count_by_weekdays, key=news_count_by_weekdays.get)
-print(f"День, в який було опубліковано найменше статей: {day_with_the_least_news_count}")
+min_news_count = news_count_by_weekdays[day_with_the_least_news_count]
+print(f"День, в який було опубліковано найменше статей: {day_with_the_least_news_count} ({min_news_count})")
 print()
 
 # Візуалізація розподілу кількості опублікованих статей за днями тижня
@@ -131,7 +133,7 @@ videos_correlation = df['num_videos'].corr(df['shares'])
 
 print(f"Кореляція між кількістю картинок в статті та її популярністю: {imgs_correlation}")
 print(f"Кореляція між кількістю відеороликів в статті та її популярністю: {videos_correlation}")
-print("Кореляція між num_images і shares більша, ніж між num_images і shares, тобто зображення мають більший вплив на популярність статті, однак кореляція між кількістю зображень та shares достатньо мала для того щоб казати що вплив несуттєвий.")
+print("Кореляція між num_images і shares більша, ніж між num_videos і shares, тобто зображення мають більший вплив на популярність статті, однак кореляція між кількістю зображень та shares достатньо мала для того щоб казати що вплив несуттєвий.")
 print()
 
 # Порівняння популярності у будні та вихідні
