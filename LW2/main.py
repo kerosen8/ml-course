@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd # type: ignore
+import seaborn as sns
 from sklearn.model_selection import train_test_split # type: ignore
 from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet # type: ignore
 from sklearn.metrics import mean_squared_error, mean_absolute_error, root_mean_squared_error, mean_absolute_percentage_error # type: ignore
@@ -34,7 +35,6 @@ y_1 = df['shares']
 outlier_indices_shares = detect_outliers(df['shares'])
 outlier_indices_average_token_length = detect_outliers(df['average_token_length'])
 outlier_indices_n_non_stop_unique_tokens = detect_outliers(df['n_non_stop_unique_tokens'])
-
 
 combined_outlier_indices = np.unique(np.concatenate((outlier_indices_shares, outlier_indices_average_token_length, outlier_indices_n_non_stop_unique_tokens)))
 
