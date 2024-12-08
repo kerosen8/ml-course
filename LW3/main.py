@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import RobustScaler
 from sklearn.model_selection import train_test_split, KFold, GridSearchCV, cross_val_score
-from sklearn.neighbors import KNeighborsRegressor
-from sklearn.metrics import mean_squared_error
+from sklearn.neighbors import KNeighborsRegressor, RadiusNeighborsRegressor
+from sklearn.metrics import mean_squared_error, mean_absolute_error, accuracy_score
 
 plt.figure(figsize=(10, 6))
 
@@ -52,8 +52,10 @@ knn_regressor.fit(X_train_scaled, y_train)
 y_pred = knn_regressor.predict(X_test_scaled)
 
 mse = mean_squared_error(y_test, y_pred)
+mae = mean_absolute_error(y_test, y_pred)
 
 print(f'Mean Squared Error: {mse}')
+print(f"MAE (RadiusNeighborsRegressor): {mae}")
 
 mean_shares = y_test.mean()
 median_shares = y_test.median()
@@ -106,3 +108,30 @@ for p in p_values:
 
 print(f"Оптимальне значення параметра p: {best_p}")
 print(f"Найкраще середнє значення MAE: {-best_score}")
+
+### 4
+
+# RadiusNeighborsRegressor
+
+param_grid = {'radius': np.linspace(0.1, 10, 50)}
+grid_search = GridSearchCV(
+    RadiusNeighborsRegressor(weights='distance', metric='minkowski', p=2),
+    param_grid,
+    scoring='neg_mean_absolute_error',
+    cv=5
+)
+grid_search.fit(X_train_scaled, y_train)
+best_radius = grid_search.best_params_['radius']
+print(f"Оптимальний радіус: {best_radius}")
+
+radius_regressor = RadiusNeighborsRegressor(radius=best_radius, weights='distance', metric='minkowski', p=2)
+
+radius_regressor.fit(X_train_scaled, y_train)
+
+y_pred_radius = radius_regressor.predict(X_test_scaled)
+
+mse_radius = mean_squared_error(y_test, y_pred_radius)
+mae_radius = mean_absolute_error(y_test, y_pred_radius)
+
+print(f"MSE (RadiusNeighborsRegressor): {mse_radius}")
+print(f"MAE (RadiusNeighborsRegressor): {mae_radius}")

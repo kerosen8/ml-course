@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 numpy = "==1.23"
-pandas = "==2.0.3"
+pandas = "*"
 matplotlib = "==3.7.5"
 scipy = "==1.10.1"
 seaborn = "==0.13.2"
