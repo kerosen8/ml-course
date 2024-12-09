@@ -34,7 +34,7 @@ def detect_outliers(data):
 # Data loading
 
 # Загрузка даних у датасет
-df = pd.read_csv('./data/OnlineNewsPopularityReduced.csv', delimiter=',')
+df = pd.read_csv('../data/OnlineNewsPopularityReduced.csv', delimiter=',')
 
 # Загальна інформація про набір даних: кількість, тип змінних і наявніть нульових значень
 print(df.info())
