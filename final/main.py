@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt 
 import xgboost as xgb
+import seaborn as sns
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
@@ -49,6 +50,12 @@ if __name__ == '__main__':
     scaler = StandardScaler()
     pipe = Pipeline([('removenan', imputer), ('scale', scaler)])
     X = pipe.fit_transform(X)
+
+    # Data Analysis
+
+    sns.countplot(x='target', data=df)
+    plt.title('Розподіл target')
+    plt.show()
 
     # Splitting the data into test and training parts
 
@@ -182,4 +189,3 @@ if __name__ == '__main__':
 
     for param_name, param_values in k_neighbors_params.items():
         plot_validation_curve(k_neighbors_grid, param_name, param_values)
-        
