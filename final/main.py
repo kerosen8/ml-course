@@ -53,6 +53,9 @@ if __name__ == '__main__':
 
     # Data Analysis
 
+    mean_nulls = df.isnull().sum().mean()
+    print(f"Середня кількість пропущених значень на стовпець: {mean_nulls}")
+
     sns.countplot(x='target', data=df)
     plt.title('Розподіл target')
     plt.show()
@@ -65,7 +68,7 @@ if __name__ == '__main__':
 
     # 1. DecisionTreeClassifier
 
-    decision_tree_classifier = DecisionTreeClassifier(random_state=42)
+    decision_tree_classifier = DecisionTreeClassifier(random_state=42, class_weight='balanced')
     decision_tree_classifier.fit(X_train, y_train)
     y_pred = decision_tree_classifier.predict(X_test)
 
@@ -80,7 +83,7 @@ if __name__ == '__main__':
     tree_params = {
         'min_samples_split': np.arange(9, 19, 3),
         'max_depth': np.arange(3, 20, 2),
-        'min_samples_leaf': [1, 5, 10, 20]
+        'min_samples_leaf': [1, 5, 10, 20],
     }
     tree_grid = GridSearchCV(decision_tree_classifier, tree_params, cv=kf, scoring='f1', n_jobs=-1)
     tree_grid.fit(X_train, y_train)
@@ -97,7 +100,7 @@ if __name__ == '__main__':
 
     # 2. AdaBoostClassifier
 
-    ada_boost_classifier = AdaBoostClassifier(n_estimators=500, random_state=42, algorithm='SAMME')
+    ada_boost_classifier = AdaBoostClassifier(estimator=tree_grid.best_estimator_, n_estimators=500, random_state=42, algorithm='SAMME')
     ada_boost_classifier.fit(X_train, y_train)
     y_pred = ada_boost_classifier.predict(X_test)
 
@@ -127,7 +130,7 @@ if __name__ == '__main__':
 
     # 3. XGBoostClassifier
 
-    xgb_classifier = xgb.XGBClassifier(random_state=42)
+    xgb_classifier = xgb.XGBClassifier(random_state=42, scale_pos_weight=8)
     xgb_classifier.fit(X_train, y_train)
     y_pred = xgb_classifier.predict(X_test)
 
